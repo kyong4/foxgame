@@ -1,5 +1,6 @@
-import { Sitting, Running, Jumping, Falling, Rolling, Diving } from './playerStates.js';
+import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit } from './playerStates.js';
 import { CollisionAnimation} from './collisionAnimation.js'
+import {FloatingMessage} from './floatingMessages.js'
 
 export class Player {
 constructor(game){
@@ -7,7 +8,7 @@ constructor(game){
     this.width=100;
     this.height=91.3;
     this.x=0;
-    this.y=this.game.height-this.height-this.game.grouindMargin;
+    this.y=this.game.height-this.height-this.game.groundMargin;
     this.vy=0;
     this.weight=1;
     this.image=document.getElementById('player');
@@ -19,7 +20,8 @@ constructor(game){
     this.frameTimer=0;
     this.speed=0;
     this.maxSpeed=10;
-    this.states=[new Sitting(this.game), new Running (this.game), new Jumping (this.game), new Falling (this.game), new Rolling(this.game),new Diving(this.game)];
+    this.states=[new Sitting(this.game), new Running (this.game), new Jumping (this.game), new Falling (this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
+   // this.currentState = null;
 }
 update (input, deltaTime) {
     this.checkCollision();
@@ -27,11 +29,16 @@ update (input, deltaTime) {
     //horizontal movement
     this.x+=this.speed;
     if (input.includes('ArrowRight')&&this.currentState!==this.states[6])this.speed=this.maxSpeed;
-    else if (input.includes('ArrowLeft')&&this.currentState!==this.states[6]) this.speed=-this.maxSpeed;
+    else if (input.includes('ArrowLeft')&&this.currentState!==this.states[6]) this.speed= -this.maxSpeed;
     else this.speed=0;
     // horizontal boundaries
     if (this.x<0)this.x=0;
     if (this.x>this.game.width-this.width)this.x=this.game.width-this.width;
+      //vertical movement
+      this.vy=0
+      if (!this.onGround()) this.vy += this.weight;
+      else this.vy=0;
+  
     //vertical boundaries
     if (this.y>this.game.height - this.height-this.game.groundMargin) this.y=this.game.height-this.height-this.game.groundMargin;
     //sprite animation
@@ -42,18 +49,21 @@ update (input, deltaTime) {
     } else {
         this.frameTimer+=deltaTime;
     }
+}
+
+draw(context){
+    //if(this.game.debug) context.strokeRect(this.x,this.y,this.width,this.height);
+    context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width, this.height, this.x,this.y,this.width,this.height);
 
 }
-draw(context){
-    if(this.game.debug) context.strokeRect(this.x,this.y,this.width,this.height);
-    context.drawImage(this.image,this.frameX*this.width,this.frameY*this.height,this.width, this.height, this.x,this.y,this.width,this.height);
+onGround() {
+    return this.y >= this.game.heigt - this.height - this.game.groundMargin;
 }
 setState(state,speed) {
     this.currentState= this.states [state];
 this.game.speed = this.game.maxSpeed * speed;
 this.currentState.enter();
 }
-
 
 checkCollision () {
    this.game.enemies.forEach(enemy => {

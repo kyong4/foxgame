@@ -32,9 +32,9 @@ constructor(game){
     this.game=game;
     this.width=60;
     this.height=44;
-    this.x=50;
+    this.x=700; //changed this, flies are dfisappearing due to the markedfordeletion
     this.y=Math.random()*this.game.height*0.5;
-    this.speedX=2;
+    this.speedX=-2;//changed this
     this.speedY=0;
     this.maxFrame=5;
     this.image=document.getElementById('enemy_fly');

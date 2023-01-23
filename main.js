@@ -27,7 +27,7 @@ this.collisions = [];
 this.maxParticles = 200;
 this.enemyTimer=0;
 this.enemyInterval=1000;
-this.debug=true;
+this.debug=false;
 this.score=0;
 this.fontColor= 'black';
 this.time = 0;
@@ -69,6 +69,7 @@ draw(context){
     this.enemies.forEach(enemy=>{
         enemy.draw(context);
     });
+    this.UI.draw(context);
 } 
 addEnemy(){
     if(this.speed>0&&Math.random()<0.5) this.enemies.push(new GroundEnemy(this));
@@ -84,10 +85,10 @@ const game=new Game (canvas.width,canvas.height);
 console.log(game);
 let lastTime=0;
 
-function animate(timestamp) {
+function animate(timeStamp) {
     const deltaTime=timeStamp-lastTime;
     lastTime=timeStamp;
-    ctx.clearRect(0,0,canvaswidth,canvas.height);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     game.update(deltaTime);
     game.draw(ctx);
    if (!game.gameOver) requestAnimationFrame(animate);
