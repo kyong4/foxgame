@@ -10,7 +10,7 @@ constructor(game){
     this.x=0;
     this.y=this.game.height-this.height-this.game.groundMargin;
     this.vy=0;
-    this.weight=1;
+    this.weight=0.1;//1
     this.image=document.getElementById('player');
     this.frameX=0;
     this.frameY=0;
@@ -28,8 +28,8 @@ update (input, deltaTime) {
     this.currentState.handleInput(input);
     //horizontal movement
     this.x+=this.speed;
-    if (input.includes('ArrowRight')&&this.currentState!==this.states[6])this.speed=this.maxSpeed;
-    else if (input.includes('ArrowLeft')&&this.currentState!==this.states[6]) this.speed= -this.maxSpeed;
+    if (input.includes('ArrowRight')&&this.currentState!==this.states[6])this.speed=this.maxSpeed-8;// minus 8 to slow down horizontal speed
+    else if (input.includes('ArrowLeft')&&this.currentState!==this.states[6]) this.speed= -this.maxSpeed+5;// plus 8 to slow down horizontal speed in opposite direction
     else this.speed=0;
     // horizontal boundaries
     if (this.x<0)this.x=0;
@@ -76,7 +76,7 @@ enemy.y + enemy.height > this.y
 enemy.markedForDeletion = true;
 this.game.collisions.push(new CollisionAnimation(this.game,enemy.x+enemy.width*0.5,enemy.y+enemy.height*0.5));
 if (this.currentState === this.states [4] || this.currentState === this.states [5]){
-this.game.score++;
+this.game.score-=10;
 this.game.floatingMessages.push(new FloatingMessage('+1',enemy.x,enemy.y,150,50))
 } else {
 this.setState (6, 0);

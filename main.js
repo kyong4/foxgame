@@ -27,7 +27,7 @@ this.collisions = [];
 this.floatingMessages=[];
 this.maxParticles = 200;
 this.enemyTimer=0;
-this.enemyInterval=1000;
+this.enemyInterval=2000;//changed 1000
 this.debug=false;
 this.score=0;
 this.winningScore=5;
@@ -35,7 +35,7 @@ this.fontColor= 'black';
 this.time = 0;
 //this.maxTime = 30000;
 this.gameOver =false;
-this.lives =5;
+this.lives =3;
 this.player.currentState = this.player.states [0];
 this.player.currentState.enter();
 }
@@ -48,11 +48,9 @@ this.player.update(this.input.keys, deltaTime);
 if (this.enemyTimer > this.enemyInterval){
 this.addEnemy();
 this.enemyTimer=0;
-} else { //good up to here
+} else {
 this.time += deltaTime;
 if (this.time > this.maxTime) this.gameOver = true;
-
-
 if (this.enemyTimer >this.enemyInterval) {
     this.addEnemy();
     this.enemyTimer=0;
@@ -64,12 +62,29 @@ this.enemies.forEach(enemy=>{
     if(enemy.markedForDeletion) this.enemies.splice(this.enemies.indexOf(enemy),1)
 });
 }
+// handle particles
+this.particles.forEach((particle,index)=>{
+    particle.update();
+    if(particle.markedForDeletion) this.particles.splice (index,1);
+});
+if (this.particles.length>this.maxParticles){
+    this.particles.length=this.maxParticles;
 }
+//handle collision sprites
+this.collisions.forEach((collision,index)=>{
+    collision.update(deltaTime);
+    if (collision.markedForDeletion) this.collisions.splice(index,1);
+});
+}
+
 draw(context){
     this.background.draw(context);
     this.player.draw(context);
     this.enemies.forEach(enemy=>{
         enemy.draw(context);
+    });
+    this.particles.forEach(particle=> {
+        particle.draw(context);
     });
     this.UI.draw(context);
 } 
