@@ -8,7 +8,7 @@ constructor(game){
     this.width=100;
     this.height=91.3;
     this.x=0;
-    this.y=this.game.height-this.height-this.game.groundMargin;
+    this.y=this.game.height-this.height;//-this.game.groundMargin;
     this.vy=0;
     this.weight=1;
     this.image=document.getElementById('player');
@@ -21,7 +21,7 @@ constructor(game){
     this.speed=0;
     this.maxSpeed=10;
     this.states=[new Sitting(this.game), new Running (this.game), new Jumping (this.game), new Falling (this.game), new Rolling(this.game), new Diving(this.game), new Hit(this.game)];
-   // this.currentState = null;
+    this.currentState = null;
 }
 update (input, deltaTime) {
     this.checkCollision();
@@ -35,7 +35,7 @@ update (input, deltaTime) {
     if (this.x<0)this.x=0;
     if (this.x>this.game.width-this.width)this.x=this.game.width-this.width;
       //vertical movement
-      this.vy=0
+           this.y+=this.vy; 
       if (!this.onGround()) this.vy += this.weight;
       else this.vy=0;
   
@@ -57,7 +57,7 @@ draw(context){
 
 }
 onGround() {
-    return this.y >= this.game.heigt - this.height - this.game.groundMargin;
+    return this.y >= this.game.height - this.height - this.game.groundMargin;
 }
 setState(state,speed) {
     this.currentState= this.states [state];
@@ -80,6 +80,7 @@ this.game.score++;
 this.game.floatingMessages.push(new FloatingMessage('+1',enemy.x,enemy.y,150,50))
 } else {
 this.setState (6, 0);
+this.game.score-=5;//line 80 9:36:16
 this.game.lives--;
 if (this.game.lives <= 0) this.game.gameOver = true;
 }

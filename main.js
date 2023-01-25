@@ -24,11 +24,13 @@ this.UI = new UI (this);
 this.enemies = [];
 this.particles=[];
 this.collisions = [];
+this.floatingMessages=[];
 this.maxParticles = 200;
 this.enemyTimer=0;
 this.enemyInterval=1000;
-this.debug=true;
+this.debug=false;
 this.score=0;
+this.winningScore=5;
 this.fontColor= 'black';
 this.time = 0;
 this.maxTime = 30000;
@@ -72,9 +74,10 @@ draw(context){
     this.UI.draw(context);
 } 
 addEnemy(){
-    if(this.speed>0&&Math.random()<0.5) this.enemies.push(new GroundEnemy(this));
+   /* if(this.speed>0&&Math.random()<0.5) this.enemies.push(new GroundEnemy(this));
     else if (this.speed>0) this.enemies.push(new ClimbingEnemy(this));
-
+*/
+this.enemies.push(new GroundEnemy(this));
     this.enemies.push(new FlyingEnemy(this));
     console.log(this.enemies);
 }
