@@ -9,7 +9,7 @@ class Enemy {
     }
     update(deltaTime){
 //movement
-this.x+=this.speedX;
+this.x-=this.speedX+this.game.speed;//changed this from += to -= to get the enemies in the right direction
 this.y+=this.speedY;
 if (this.frameTimer>this.frameInterval){
     this.frameTimer=0;
@@ -32,9 +32,9 @@ constructor(game){
     this.game=game;
     this.width=60;
     this.height=44;
-    this.x=700; //changed this, flies are dfisappearing due to the markedfordeletion
+    this.x=this.game.width+Math.random()*this.game.width*0.5;
     this.y=Math.random()*this.game.height*0.5;
-    this.speedX=-2;//changed this
+    this.speedX=2;//changed this
     this.speedY=0;
     this.maxFrame=5;
     this.image=document.getElementById('enemy_fly');
@@ -70,7 +70,7 @@ export class ClimbingEnemy extends Enemy {
         this.game=game;
         this.width=120;
         this.height=144;
-        this.x=this.game.width;
+        this.x=this.game.width+Math.random()*game.width*0.5 ;
         this.y=Math.random()*this.game.height*0.5;
         this.image=document.getElementById('enemy_spider_big');
         this.speedX=0;
