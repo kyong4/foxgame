@@ -52,6 +52,7 @@ export class Fire extends Particle {
               context.translate(this.x, this.y); 
               context.rotate(this.angle); 
               context.drawImage(this.image, -this.size * 0.5, -this.size * 0.5 , this.size, this.context.restore() );
+              context.restore();
        }
 }
 

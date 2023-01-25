@@ -32,7 +32,7 @@ export class UI {
                 context.font=this.fontSize*0.7+'px '+ this.fontFamily;
                 context.fillText('What are creatures of the night afraid of? You!', this.game.width)
             } else {
-                context.fillText("Love at first bite?",this.game.width*0.5, this.game.height*0.5-20);
+                context.fillText("の at first bite?",this.game.width*0.5, this.game.height*0.5-20);
                 context.font=this.fontSize*0.7+'px ' +this.fontFamily;
                 context.fillText('Nope. Better luck next time', this.game.width*0.5,this.game.height*0.5+20);
             

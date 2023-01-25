@@ -7,3 +7,18 @@ source is freecodecamp, project9 in the youtube video.
 
 
 To run, download Live Server on Visual Studio Code. Right click index.html and click on run with live server.
+
+
+
+
+Current bugs:
+
+-fox does not jump
+check: main.js, player.js, playerstate.js
+
+-enemies are not transitioning properly.
+check enemies.js
+
+
+Unlikely to have mistake:
+playerstate.js
